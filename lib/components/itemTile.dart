@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerce/components/snackbar_notification.dart';
 import 'package:ecommerce/services/auth.dart';
-import 'package:ecommerce/skeleton_container.dart';
+import 'package:ecommerce/components/skeleton_container.dart';
 import 'package:flutter/material.dart';
 
-import 'class.dart';
+import '../class.dart';
 
 class ItemTile {
   final firebase = FirebaseFirestore.instance;
@@ -36,7 +37,7 @@ class ItemTile {
             .update({'itemQuantity': itemQuantity + 1});
       }
     }
-    _showToast(context);
+    showSnackBar(context, "Cart Updated Successfully");
   }
 
   Future addItemCart(ItemList item, String email) async {
@@ -110,19 +111,5 @@ class ItemTile {
         ],
       )
     ]);
-  }
-
-  void _showToast(BuildContext context) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        duration: Duration(seconds: 2),
-        content: const Text("Cart Updated Successfully"),
-        action: SnackBarAction(
-          label: 'Dismiss',
-          onPressed: () {},
-        ),
-      ),
-    );
   }
 }

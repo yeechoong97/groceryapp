@@ -36,3 +36,10 @@ class OrderSummary {
   OrderSummary(this.id, this.dateTime, this.itemQuantity, this.totalPrice,
       this.address, this.contact);
 }
+
+class CategoryList {
+  late final String imageURL;
+  late final String categoryName;
+
+  CategoryList(this.imageURL, this.categoryName);
+}

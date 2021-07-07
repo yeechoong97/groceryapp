@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerce/components/loading.dart';
 import 'package:ecommerce/services/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_animations/loading_animations.dart';
-import 'cart.dart';
 import 'dart:core';
 
 class Order extends StatefulWidget {
@@ -14,11 +13,11 @@ class Order extends StatefulWidget {
 
 class _OrderState extends State<Order> {
   final args;
+  final firebase = FirebaseFirestore.instance;
   String contact = "";
   String address = "";
-  bool loading = false;
   String userEmail = "";
-  final firebase = FirebaseFirestore.instance;
+  bool loading = false;
 
   _OrderState(this.args);
 
@@ -101,7 +100,6 @@ class _OrderState extends State<Order> {
                 TextButton(
                   child: Text('Ok'),
                   onPressed: () {
-                    // Navigator.of(context).popUntil((route) => route.isFirst);
                     Navigator.pop(context);
                     Navigator.pop(context, "true");
                   },
@@ -124,18 +122,6 @@ class _OrderState extends State<Order> {
         ],
       ),
       body: bodyOrder(context),
-    );
-  }
-
-  Widget loadingAnimation() {
-    return Center(
-      child: LoadingBouncingGrid.circle(
-        backgroundColor: Colors.lightBlueAccent,
-        borderColor: Colors.blueAccent,
-        borderSize: 3.0,
-        size: 100.0,
-        duration: Duration(milliseconds: 1500),
-      ),
     );
   }
 

@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerce/itemTile.dart';
-import 'package:ecommerce/order.dart';
+import 'package:ecommerce/components/itemTile.dart';
+import 'package:ecommerce/ui/order.dart';
 import 'package:ecommerce/services/auth.dart';
 import 'package:flutter/material.dart';
-import 'class.dart';
+import '../class.dart';
 
 class CartScreen extends StatefulWidget {
   @override
@@ -17,8 +17,9 @@ class _CartState extends State<CartScreen> {
   double totalPrice = 0.0;
   List<ItemDetails> _cartList = [];
   bool result = false;
-  String userEmail = "";
   bool loading = true;
+  String userEmail = "";
+
   final firebase = FirebaseFirestore.instance;
 
   @override
@@ -38,13 +39,15 @@ class _CartState extends State<CartScreen> {
   void navigateToOrder() async {
     var results = await Navigator.pushNamed(context, Order.routeName,
         arguments: OrderTotal(itemQuantity, totalPrice));
-    if (results.toString() == "true") {
-      setState(() {
-        _cartList = [];
-        itemQuantity = 0;
-        totalPrice = 0.00;
-      });
-    }
+    if (results.toString() == "true") resetCart();
+  }
+
+  void resetCart() {
+    setState(() {
+      _cartList = [];
+      itemQuantity = 0;
+      totalPrice = 0.00;
+    });
   }
 
   void updateCart(String id, int quantity, bool action) async {
@@ -54,9 +57,9 @@ class _CartState extends State<CartScreen> {
           .doc(id)
           .update({'itemQuantity': quantity + 1});
     } else {
-      if (quantity - 1 == 0) {
+      if (quantity - 1 == 0)
         await firebase.collection('cart').doc(id).delete();
-      } else
+      else
         await firebase
             .collection('cart')
             .doc(id)
@@ -66,9 +69,7 @@ class _CartState extends State<CartScreen> {
   }
 
   Future fetchCart() async {
-    _cartList = [];
-    itemQuantity = 0;
-    totalPrice = 0.0;
+    resetCart();
     var cartCollection = await firebase
         .collection('cart')
         .where('userEmail', isEqualTo: userEmail)

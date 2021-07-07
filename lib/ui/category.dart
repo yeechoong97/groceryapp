@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'item.dart';
+import '../class.dart';
 
 class Category extends StatelessWidget {
   List<CategoryList> _categories = [
@@ -40,11 +41,4 @@ class Category extends StatelessWidget {
       ),
     );
   }
-}
-
-class CategoryList {
-  late final String imageURL;
-  late final String categoryName;
-
-  CategoryList(this.imageURL, this.categoryName);
 }

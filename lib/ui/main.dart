@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerce/history_details.dart';
+import 'package:ecommerce/ui/history_details.dart';
 import 'package:ecommerce/services/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'authenticate/authenticate.dart';
-import 'authenticate/register.dart';
+import '../authenticate/authenticate.dart';
+import '../authenticate/register.dart';
 import 'order.dart';
 import 'search.dart';
 import 'cart.dart';
@@ -25,11 +25,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -60,17 +55,13 @@ class _MyAppState extends State<MyApp> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             dynamic user = snapshot.data;
-
             if (user == null || user.emailVerified == false) {
               return Authenticate();
             }
             return MyHomePage();
-          } else
-            return Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
+          } else {
+            return Center();
+          }
         });
   }
 }
@@ -83,6 +74,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   String userEmail = "";
+  int item = 0;
   List<Widget> _allPages = [
     HomeScreen(),
     SearchScreen(),
@@ -90,7 +82,6 @@ class _MyHomePageState extends State<MyHomePage> {
     CartScreen(),
   ];
 
-  int item = 0;
   var firebase = FirebaseFirestore.instance;
 
   @override

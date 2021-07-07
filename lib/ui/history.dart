@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce/services/auth.dart';
-import 'package:ecommerce/skeleton_container.dart';
+import 'package:ecommerce/components/skeleton_container.dart';
 import 'package:flutter/material.dart';
-import 'class.dart';
+import '../class.dart';
 import 'history_details.dart';
 
 class HistoryScreen extends StatefulWidget {
@@ -10,15 +10,14 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryState extends State<HistoryScreen> {
+  final firebase = FirebaseFirestore.instance;
   bool loading = true;
   String userEmail = "";
-  final firebase = FirebaseFirestore.instance;
   List<OrderSummary> _orderSummary = [];
 
   @override
   void initState() {
     super.initState();
-
     retrieveUserEmail();
   }
 

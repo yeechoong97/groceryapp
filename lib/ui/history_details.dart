@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerce/services/auth.dart';
 import 'package:flutter/material.dart';
-import 'class.dart';
-import 'itemTile.dart';
+import '../class.dart';
+import '../components/itemTile.dart';
 
 class HistoryDetails extends StatefulWidget {
   static final routeName = "/history/details";
@@ -20,6 +19,7 @@ class _HistoryState extends State<HistoryDetails> {
   bool loading = true;
   OrderSummary orderSummary;
   final firebase = FirebaseFirestore.instance;
+
   _HistoryState(this.orderSummary);
 
   @override

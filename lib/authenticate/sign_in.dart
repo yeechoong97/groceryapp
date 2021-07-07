@@ -1,9 +1,10 @@
+import 'package:ecommerce/components/loading.dart';
+import 'package:ecommerce/components/snackbar_notification.dart';
 import 'package:ecommerce/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:loading_animations/loading_animations.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -20,9 +21,9 @@ class _SignInState extends State<SignIn> {
     showLoading(context);
     dynamic user = await _auth.signInEmail(email, password);
     if (user == null)
-      _showToast(context, "Invalid Crendetials Entered");
+      showSnackBar(context, "Invalid Crendetials Entered");
     else if (user.emailVerified == false) {
-      _showToast(context, "Please verify your email first");
+      showSnackBar(context, "Please verify your email first");
       AuthService().signOut();
     }
   }
@@ -53,12 +54,7 @@ class _SignInState extends State<SignIn> {
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return Center(
-            child: LoadingBumpingLine.circle(
-              backgroundColor: Colors.lightBlue,
-              borderColor: Colors.blue,
-              size: 70.0,
-              duration: Duration(milliseconds: 1000),
-            ),
+            child: loadingAnimation(),
           );
         });
   }
@@ -164,20 +160,6 @@ class _SignInState extends State<SignIn> {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  void _showToast(BuildContext context, String msg) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        duration: Duration(seconds: 2),
-        content: Text(msg),
-        action: SnackBarAction(
-          label: 'Dismiss',
-          onPressed: () {},
         ),
       ),
     );

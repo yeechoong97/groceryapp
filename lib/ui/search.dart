@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'class.dart';
-import 'itemTile.dart';
+import '../class.dart';
+import '../components/itemTile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../components/snackbar_notification.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -14,17 +15,12 @@ class _SearchState extends State<SearchScreen> {
   List<ItemList> _itemList = [];
   final firebase = FirebaseFirestore.instance;
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   void retrieveItem(String value) async {
     setState(() {
       initialSearch = false;
       loading = true;
     });
-    String cleanValue = value.trim().toLowerCase();
+    String trimValue = value.trim().toLowerCase();
     var collectionItem = await firebase.collection('item').get();
 
     await Future.delayed(Duration(seconds: 2), () {
@@ -34,13 +30,13 @@ class _SearchState extends State<SearchScreen> {
           if (element['categoryName']
                   .toString()
                   .toLowerCase()
-                  .contains(cleanValue) ||
-              element['itemName'].toString().toLowerCase().contains(cleanValue))
+                  .contains(trimValue) ||
+              element['itemName'].toString().toLowerCase().contains(trimValue))
             _itemList.add(new ItemList(element['categoryName'],
                 element['itemName'], element['itemURL'], element['price']));
         });
         loading = false;
-        if (_itemList.length == 0) _showEmpty(context);
+        if (_itemList.length == 0) showSnackBar(context, "No Result Found....");
       });
     });
   }
@@ -99,20 +95,6 @@ class _SearchState extends State<SearchScreen> {
                     ),
             )
           ],
-        ),
-      ),
-    );
-  }
-
-  void _showEmpty(BuildContext context) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        duration: Duration(seconds: 2),
-        content: const Text("No Result Found.."),
-        action: SnackBarAction(
-          label: 'Dismiss',
-          onPressed: () {},
         ),
       ),
     );

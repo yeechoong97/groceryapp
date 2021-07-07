@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'itemTile.dart';
-import 'class.dart';
+import '../components/itemTile.dart';
+import '../class.dart';
 
 class Item extends StatefulWidget {
   static const routeName = '/category/item';
   final argument;
-
   Item({this.argument});
 
   @override
@@ -15,8 +14,8 @@ class Item extends StatefulWidget {
 
 class _ItemState extends State<Item> {
   List<ItemList> _filteredList = [];
-  final args;
   bool loading = true;
+  final args;
   final firebase = FirebaseFirestore.instance;
   _ItemState(this.args);
 
