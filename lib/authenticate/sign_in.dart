@@ -30,6 +30,7 @@ class _SignInState extends State<SignIn> {
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
     showLoading(context);
+    //
     final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
